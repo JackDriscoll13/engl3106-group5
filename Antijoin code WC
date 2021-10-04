@@ -1,0 +1,114 @@
+library(gutenbergr)
+library(tidyverse)
+library(tidytext)
+library(textdata)
+data("stop_words")
+
+WC01 <- gutenberg_download(144, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC01 <- WC01[42:14948, ]%>%
+  unnest_tokens(words, text)# The Voyage Out by Virginia Woolf
+
+WC02 <- gutenberg_download(145, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC02 <- WC02[195:33280, ]%>%
+  unnest_tokens(words, text)# Middlemarch by George Eliot (Mary Ann Evans)
+
+WC03 <- gutenberg_download(158, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC03 <- WC03[80:16486, ]%>%
+  unnest_tokens(words, text)# Emma by Jane Austen
+
+WC04 <- gutenberg_download(161, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC04 <- WC04[72:12671, ]%>%
+  unnest_tokens(words, text)# Sense and Sensibility by Jane Austen
+
+WC05 <- gutenberg_download(166, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC05 <- WC05[14:5937, ]%>%
+  unnest_tokens(words, text)# Summer by Edith Wharton
+
+WC06 <- gutenberg_download(467, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC06 <- WC06[13:5249, ]%>%
+  unnest_tokens(words, text)# The Princess of Cleves by Madame de La Fayette
+
+WC07 <- gutenberg_download(541, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC07 <- WC07[20:11557, ]%>%
+  unnest_tokens(words, text)# The Age of Innocence by Edith Wharton
+
+WC08 <- gutenberg_download(767, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC08 <- WC08[51:6981, ]%>%
+  unnest_tokens(words, text)# Agnes Grey by Anne Bronte
+
+WC09 <- gutenberg_download(768, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC09 <- WC09[11:12314, ]%>%
+  unnest_tokens(words, text)# Wuthering Heights by Emily Bronte
+
+WC10 <- gutenberg_download(969, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC10 <- WC10[480:18458, ]%>%
+  unnest_tokens(words, text)# The Tenant of Wildfell Hall by Anne Bronte
+
+WC11 <- gutenberg_download(1249, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC11 <- WC11[319:2518, ]%>%
+  unnest_tokens(words, text)# Anthem by Ayn Rand
+
+WC12 <- gutenberg_download(1260, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC12 <- WC12[147:21001, ]%>%
+  unnest_tokens(words, text)# Jane Eyre by Charlotte Bronte
+
+WC13 <- gutenberg_download(1342, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC13 <- WC13[142:14199, ]%>%
+  unnest_tokens(words, text)# Pride and Prejudice by Jane Austen
+
+WC14 <- gutenberg_download(4274, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC14 <- WC14[145:28840, ]%>%
+  unnest_tokens(words, text)# Wives and Daughters by Elizabeth Gaskell
+
+WC15 <- gutenberg_download(6053, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC15 <- WC15[345:19732, ]%>%
+  unnest_tokens(words, text)# Evelina by Fanny Burney
+
+WC16 <- gutenberg_download(16389, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC16 <- WC16[13:8833, ]%>%
+  unnest_tokens(words, text)# The Enchanted April by Elizabeth Von Arnim
+
+WC17 <- gutenberg_download(21415, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC17 <- WC17[279:1859, ]%>%
+  unnest_tokens(words, text)# The Young Visiters by Daisy Ashford
+
+WC18 <- gutenberg_download(40814, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC18 <- WC18[371:9011, ]%>%
+  unnest_tokens(words, text)# Ruth Hall by Fanny Fern
+
+WC19 <- gutenberg_download(41256, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC19 <- WC19[180:7545, ]%>%
+  unnest_tokens(words, text)# Memoirs of Emma Courtney by Mary Hays
+
+WC20 <- gutenberg_download(50054, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC20 <- WC20[93:16515, ]%>%
+  unnest_tokens(words, text)# The Female Quixote by Charlotte Lennox
+
+WC21 <- gutenberg_download(38703, meta_fields = c("title", "author"),
+                           mirror = "http://mirrors.xmission.com/gutenberg/")
+WC21 <- WC21[37:13797, ]%>%
+  unnest_tokens(words, text)
+
+WC <- rbind(WC01, WC02, WC03, WC04, WC05, WC06, WC07, WC08, WC09, WC10, WC11, WC12, WC13, WC14, WC15, WC16, WC17, WC18, WC19, WC20, WC21)
+unnest_tokens(word, text)%>%
+  anti_join(stop_words) #issue: getting an input error
