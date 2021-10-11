@@ -41,12 +41,14 @@ MaleCorpusCount[1:20,]%>%
   aes(word,n)+
   geom_col()+
   coord_flip()+
-  xlab(NULL)+
+  xlab("Word")+
   ylab("No. of Occurrences")+
-  ggtitle("Most Common Words in 'Love Stories by Men' Corpus")
+  ggtitle("Most Common Words, Male Corpus")
+
+ggsave("top_twenty_non_stop_words_MALE.png", path="Images", scale = 1)
 
 ### BING LEXICON - QUESTIONS B-D
-BING <- get_sentiments("bing")
+BING <- get_sentiments("bing") %>% filter(word != "miss")
 MaleCorpusBING <- MC_SRR %>%
   inner_join(BING)%>%
   count(title = title, sentiment) %>%
@@ -62,8 +64,11 @@ MaleCorpusBING %>% arrange(sentiment) %>%
   geom_col() + 
   xlab("Title of Work") +
   ylab("Sentiment (BING)") +
-  ggtitle("10 Most Negative Novels in 'Love Stories by Men' Corpus") +
+  ggtitle("10 Most Negative Novels, Male Corpus") +
   coord_flip()
+
+ggsave("ten_most_negative_novels_MALE.png", path="Images", scale = 1, width = 8)
+ggsave()
 
 ## C: OVERALL SENTIMENT
 sum(MaleCorpusBING$sentiment)
@@ -76,6 +81,32 @@ PositiveInfluentialWords <- InfluentialWords %>%
   filter(sentiment == "positive")
 NegativeInfluentialWords <- InfluentialWords %>%
   filter(sentiment == "negative")
+
+PositiveInfluentialWords %>%
+  mutate(word = reorder(word, n)) %>%
+  head(15) %>%
+  ggplot() +
+  aes(word, n) +
+  geom_col() + 
+  xlab("Word") +
+  ylab("Number of Occurences") +
+  ggtitle("Influential Positive Words, Male Corpus") +
+  coord_flip()
+
+ggsave("positive_influential_words_MALE.png", path="Images", scale = 1)
+
+NegativeInfluentialWords %>%
+  mutate(word = reorder(word, n)) %>%
+  head(15) %>%
+  ggplot() +
+  aes(word, n) +
+  geom_col() + 
+  xlab("Word") +
+  ylab("Number of Occurences") +
+  ggtitle("Influential Negative Words, Male Corpus") +
+  coord_flip()
+
+ggsave("negative_influential_words_MALE.png", path="Images", scale = 1)
   
 
 ### NRC LEXICON - QUESTIONS E&F
@@ -94,12 +125,16 @@ WCjoy%>%
   aes(word,n)+
   geom_col()+
   coord_flip()+
-  xlab(NULL)+
+  xlab("Word")+
   ylab("No. of Occurrences")+
   ggtitle("Top 15 Joyful Words, Male Corpus")
 
+ggsave("top_15_joyful_words_MALE.png", path="Images", scale = 1)
+
 NRCanger <- NRC %>%  
-  filter(sentiment == "anger")
+  filter(sentiment == "anger") %>%
+  filter(word != "words")
+  
 WCanger <- MCToken%>%
   inner_join(NRCanger)%>%
   count(word, sort = TRUE)%>%
@@ -110,9 +145,11 @@ WCanger%>%
   aes(word,n)+
   geom_col()+
   coord_flip()+
-  xlab(NULL)+
+  xlab("Word")+
   ylab("No. of Occurrences")+
   ggtitle("Top 15 Angry Words, Male Corpus")
+
+ggsave("top_15_anger_words_MALE.png", path="Images", scale = 1)
 
 ## F: WHICH NOVEL IN CORPUS HAS HIGHEST DISGUST
 NRCdisgust <- NRC %>%
@@ -124,8 +161,8 @@ WCdisgust <- MCToken %>%
 
 ### AFINN LEXICON - QUESTIONS G&H
 AFINN <- lexicon_afinn()
+
 MaleCorpusAFINN <- MCToken %>%
   inner_join(AFINN)%>%
   group_by(title) %>%
   summarise(sentiment = sum(value))
-
